@@ -671,7 +671,6 @@ GBB.VanillaDungeonLevels = {
   [ "AQ20" ] = { 60, 60 },
   [ "BWL" ] = { 60, 60 },
   [ "AQ40" ] = { 60, 60 },
-  [ "NAXX" ] = { 60, 60 },
   [ "WSG" ] = { 10, 70 },
   [ "AB" ] = { 20, 70 },
   [ "AV" ] = { 51, 70 },
@@ -789,8 +788,8 @@ GBB.WotlkDungeonLevels = {
     [ "FOS"] = { 70, 80 },
     [ "POS"] = { 70, 80 },
     [ "HOR"] = { 70, 80 },
-    [ "NAXX_WOTLK"] = { 80, 80 },
     [ "EOE"] = { 80, 80 },
+	[ "NAXX" ] = { 80, 80 },
     [ "OS"] = { 80, 80 },
     [ "VOA"] = { 80, 80 },
     [ "ULDUAR"] = { 80, 80 },
@@ -810,7 +809,7 @@ GBB.WotlkDungeonLevels = {
 GBB.WotlkDungeonNames = {
     "UK", "NEX", "AN", "AK", "DTK", "VH", "GUN", "HOL", "HOS", "COS", "OCC", "UP",
     "UK_H", "NEX_H", "AN_H", "AK_H", "DTK_H", "VH_H", "GUN_H", "HOL_H", "HOS_H", "COS_H", "OCC_H", "UP_H",
-    "FOS", "POS", "HOR"
+    "FOS", "POS", "HOR",
 }
 
 GBB.TbcDungeonNames      = {
@@ -839,14 +838,14 @@ GBB.DebugNames = {
 }
 
 GBB.Raids = {
-  "ONY", "MC", "ZG", "AQ20", "BWL", "AQ40", "NAXX",
+  "ONY", "MC", "ZG", "AQ20", "BWL", "AQ40",
   "KARA", "GRUULS", "MAGS", "SSC", "EYE", "ZA", "HYJAL",
   "BT", "SWP", "ARENA", "WSG", "AV", "AB", "EOTS",
   "BREW", "HOLLOW", "LOVE", "NOBLEGARDEN", "MIDSUMMER", "HARVEST", "WINTERVEIL", "EOE", "OS", "VOA", "ULDUAR", "TOC", "TOGC", "ICC", "RS",
 }
 
 GBB.WotlkRaidNames = {
-    "NAXX_WOTLK", "EOE", "OS", "VOA", "ULDUAR", "TOC", "TOGC", "ICC", "RS"
+    "NAXX", "EOE", "OS", "VOA", "ULDUAR", "TOC", "TOGC", "ICC", "RS"
 }
 
 GBB.Seasonal = {
