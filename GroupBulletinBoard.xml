@@ -113,6 +113,28 @@
 					</OnMouseDown>
 				</Scripts>
 			</Button>
+	  <Button name="$parentClearButton" inherits="UIPanelButtonTemplate">
+        <Layers>
+          <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormalSmall" text="Clear">
+              <Anchors>
+                <Anchor point="CENTER"/>
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentSettingsButton" relativePoint="LEFT"/>
+				</Anchors>
+        <Size>
+          <AbsDimension x="60" y="18"/>
+        </Size>
+				<Scripts>
+					<OnMouseDown>
+						 GroupBulletinBoard_Addon.ClearRequestList()
+					</OnMouseDown>
+				</Scripts>
+			</Button>
 
 			<!-- announcebox -->
 			<Button name="$parentSelectChannel" inherits="UIPanelButtonTemplate" text="channel">

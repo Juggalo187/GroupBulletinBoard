@@ -482,6 +482,7 @@ end
 
 function GBB.GetDungeons( msg, name )
   if msg == nil then return {} end
+  
   local dungeons = {}
 
   local isBad = false
@@ -493,6 +494,53 @@ function GBB.GetDungeons( msg, name )
   local runDungeon = ""
 
   local wordcount = 0
+  
+   -- Enhanced guild recruitment detection
+  local guildRecruitmentPatterns = {
+    "guild.*recruit", "recruit.*guild", "looking.*members", "members.*wanted",
+    "apply.*guild", "guild.*apply", "join.*guild", "guild.*join",
+    "lf.*members", "lfm.*guild", "guild.*lfm"
+  }
+  
+  local lowerMsg = msg:lower()
+  for _, pattern in ipairs(guildRecruitmentPatterns) do
+    if string.find(lowerMsg, pattern) then
+      isBad = true
+      break
+    end
+  end
+
+  -- Additional check for guild-related words near dungeon names
+  local guildWords = {"guild", "recruit", "apply", "members", "join"}
+  local hasGuildContext = false
+  
+  for _, guildWord in ipairs(guildWords) do
+    if string.find(lowerMsg, guildWord) then
+      hasGuildContext = true
+      break
+    end
+  end
+  
+  -- Safety check for dungeonTagsLoc
+  if not GBB.dungeonTagsLoc then
+    GBB.dungeonTagsLoc = {}
+    if GBB.DB.OnDebug then
+      print(GBB.MSGPREFIX .. "dungeonTagsLoc was nil, initialized empty table")
+    end
+  end
+  
+  -- If message contains both dungeon tags AND guild context, mark as bad
+  if hasGuildContext then
+    local dungeonCount = 0
+    for _ in pairs(dungeons) do
+      dungeonCount = dungeonCount + 1
+    end
+    
+    -- If multiple dungeons are mentioned with guild context, it's likely recruitment spam
+    if dungeonCount > 2 then
+      isBad = true
+    end
+  end
 
   if GBB.DB.TagsZhtw then
     for key, v in pairs( GBB.tagList ) do

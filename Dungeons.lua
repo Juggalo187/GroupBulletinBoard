@@ -66,13 +66,13 @@ function GBB.GetDungeonNames()
     [ "HYJAL" ] = "The Battle For Mount Hyjal",
     [ "BT" ] = "Black Temple",
     [ "SWP" ] = "Sunwell Plateau",
-    [ "ONY" ] = "Onyxia's Lair (40)",
-    [ "MC" ] = "Molten Core (40)",
+    [ "ONY" ] = "Onyxia's Lair (25)",
+    [ "MC" ] = "Molten Core (25)",
     [ "ZG" ] = "Zul'Gurub (20)",
     [ "AQ20" ] = "Ruins of Ahn'Qiraj (20)",
-    [ "BWL" ] = "Blackwing Lair (40)",
-    [ "AQ40" ] = "Temple of Ahn'Qiraj (40)",
-    [ "NAXX" ] = "Naxxramas (40)",
+    [ "BWL" ] = "Blackwing Lair (25)",
+    [ "AQ40" ] = "Temple of Ahn'Qiraj (25)",
+    [ "NAXX" ] = "Naxxramas (25)",
     [ "WSG" ] = "Warsong Gulch (PvP)",
     [ "AB" ] = "Arathi Basin (PvP)",
     [ "AV" ] = "Alterac Valley (PvP)",
@@ -84,7 +84,35 @@ function GBB.GetDungeonNames()
     [ "BAD" ] = "DEBUG BAD WORDS - REJECTED",
     [ "BREW" ] = "Brewfest - Coren Direbrew",
     [ "HOLLOW" ] = "Hallow's End - Headless Horseman",
-  }
+	[ "LOVE" ] = "Love is in the Air",
+	[ "NOBLEGARDEN" ] = "Noblegarden",
+	[ "MIDSUMMER" ] = "Midsummer Fire Festival",
+	[ "HARVEST" ] = "Harvest Festival",
+	[ "WINTERVEIL" ] = "Feast of Winter Veil",
+	[ "UK"] = "Utgarde Keep",
+	[ "UP"] = "Utgarde Pinnacle", 
+	[ "NEX"] = "The Nexus",
+	[ "AN"] = "Azjol-Nerub",
+	[ "AK"] = "Ahn'kahet: The Old Kingdom",
+	[ "DTK"] = "Drak'Tharon Keep",
+	[ "VH"] = "The Violet Hold",
+	[ "GUN"] = "Gundrak",
+	[ "HOL"] = "Halls of Stone",
+	[ "HOS"] = "Halls of Lightning",
+	[ "COS"] = "The Culling of Stratholme",
+	[ "OCC"] = "The Oculus",
+	[ "FOS"] = "The Forge of Souls",
+	[ "POS"] = "Pit of Saron",
+	[ "HOR"] = "Halls of Reflection",
+	[ "EOE"] = "The Eye of Eternity (25)",
+	[ "OS"] = "The Obsidian Sanctum (25)", 
+	[ "VOA"] = "Vault of Archavon (25)",
+	[ "ULDUAR"] = "Ulduar (25)",
+	[ "TOC"] = "Trial of the Crusader (25)",
+	[ "TOGC"] = "Trial of the Grand Crusader (25)",
+	[ "ICC"] = "Icecrown Citadel (25)",
+	[ "RS"] = "The Ruby Sanctum (25)",
+    }
 
   local dungeonNamesLocales = {
     deDE = {
@@ -140,13 +168,13 @@ function GBB.GetDungeonNames()
       [ "HYJAL" ] = "Schlacht um den Berg Hyjal",
       [ "BT" ] = "Der Schwarze Tempel",
       [ "SWP" ] = "Sonnenbrunnenplateau",
-      [ "ONY" ] = "Onyxias Hort (40)",
-      [ "MC" ] = "Geschmolzener Kern (40)",
+      [ "ONY" ] = "Onyxias Hort (25)",
+      [ "MC" ] = "Geschmolzener Kern (25)",
       [ "ZG" ] = "Zul'Gurub (20)",
       [ "AQ20" ] = "Ruinen von Ahn'Qiraj (20)",
-      [ "BWL" ] = "Pechschwingenhort (40)",
-      [ "AQ40" ] = "Tempel von Ahn'Qiraj (40)",
-      [ "NAXX" ] = "Naxxramas (40)",
+      [ "BWL" ] = "Pechschwingenhort (25)",
+      [ "AQ40" ] = "Tempel von Ahn'Qiraj (25)",
+      [ "NAXX" ] = "Naxxramas (25)",
       [ "WSG" ] = "Warsongschlucht (PVP)",
       [ "AV" ] = "Alteractal (PVP)",
       [ "AB" ] = "Arathibecken (PVP)",
@@ -154,7 +182,38 @@ function GBB.GetDungeonNames()
       [ "ARENA" ] = "Arena (PvP)",
       [ "MISC" ] = "Verschiedenes",
       [ "TRADE" ] = "Handel",
-
+	  [ "DEBUG" ] = "DEBUG-INFO",
+	  [ "BAD" ] = "DEBUG UNERWÜNSCHTE WÖRTER - ABGELEHNT",
+	  [ "BREW" ] = "Braufest - Coren Düsterbräu",
+	  [ "HOLLOW" ] = "Schlotternacht - Der kopflose Reiter",
+	  [ "LOVE" ] = "Liebe liegt in der Luft",
+	  [ "NOBLEGARDEN" ] = "Garten des Adels",
+	  [ "MIDSUMMER" ] = "Sonnenwendfest",
+	  [ "HARVEST" ] = "Erntedankfest",
+	  [ "WINTERVEIL" ] = "Winterhauchfest",
+	  [ "UK"] = "Feste Utgarde",
+	  [ "UP"] = "Turm Utgarde",
+	  [ "NEX"] = "Der Nexus",
+	  [ "AN"] = "Azjol-Nerub",
+	  [ "AK"] = "Ahn'kahet: Das Alte Königreich",
+	  [ "DTK"] = "Drak'Tharon Keep",
+	  [ "VH"] = "Die Violette Festung",
+	  [ "GUN"] = "Gundrak",
+	  [ "HOL"] = "Die Hallen des Steins",
+	  [ "HOS"] = "Die Hallen des Blitzes",
+	  [ "COS"] = "Das Ausmerzen von Stratholme",
+	  [ "OCC"] = "Das Oculus",
+	  [ "FOS"] = "Die Seelenschmiede",
+	  [ "POS"] = "Grube von Saron",
+	  [ "HOR"] = "Hallen der Reflexion",
+	  [ "EOE"] = "Das Auge der Ewigkeit (25)",
+	  [ "OS"] = "Das Obsidiansanktum (25)",
+	  [ "VOA"] = "Gewölbe des Archavon (25)",
+	  [ "ULDUAR"] = "Ulduar (25)",
+	  [ "TOC"] = "Prüfung des Kreuzfahrers (25)",
+	  [ "TOGC"] = "Prüfung des Obersten Kreuzfahrers (25)",
+	  [ "ICC"] = "Eiskronenzitadelle (25)",
+	  [ "RS"] = "Das Rubinsanktum (25)",
     },
     frFR = {
       [ "RFC" ] = "Gouffre de Ragefeu",
@@ -209,14 +268,46 @@ function GBB.GetDungeonNames()
       [ "HYJAL" ] = "Sommet d'Hyjal",
       [ "BT" ] = "Temple noir",
       [ "SWP" ] = "Plateau du Puits de soleil",
-      [ "ONY" ] = "Repaire d'Onyxia (40)",
-      [ "MC" ] = "Cœur du Magma (40)",
+      [ "ONY" ] = "Repaire d'Onyxia (25)",
+      [ "MC" ] = "Cœur du Magma (25)",
       [ "ZG" ] = "Zul'Gurub (20)",
       [ "AQ20" ] = "Ruines d'Ahn'Qiraj (20)",
-      [ "BWL" ] = "Repaire de l'Aile noire (40)",
-      [ "AQ40" ] = "Ahn'Qiraj (40)",
-      [ "NAXX" ] = "Naxxramas (40)",
+      [ "BWL" ] = "Repaire de l'Aile noire (25)",
+      [ "AQ40" ] = "Ahn'Qiraj (25)",
+      [ "NAXX" ] = "Naxxramas (25)",
       [ "ARENA" ] = "Arena (PvP)",
+	  [ "DEBUG" ] = "INFO DÉBOGAGE",
+	  [ "BAD" ] = "MOTS INDÉSIRABLES DÉBOGAGE - REJETÉ",
+	  [ "BREW" ] = "Fête des Brasseurs - Coren Navrebière",
+	  [ "HOLLOW" ] = "Sanssaint - Le Cavalier sans tête",
+	  [ "LOVE" ] = "De l'amour dans l'air",
+	  [ "NOBLEGARDEN" ] = "Jardins des Nobles",
+	  [ "MIDSUMMER" ] = "Fête du Feu du solstice d'été",
+	  [ "HARVEST" ] = "Fête des Moissons",
+	  [ "WINTERVEIL" ] = "Voile d'hiver",
+	  [ "UK"] = "Donjon d'Utgarde",
+	  [ "UP"] = "Cime d'Utgarde",
+	  [ "NEX"] = "Le Nexus",
+	  [ "AN"] = "Azjol-Nérub",
+	  [ "AK"] = "Ahn'kahet : l'Ancien royaume",
+	  [ "DTK"] = "Donjon de Drak'Tharon",
+	  [ "VH"] = "Le fort Pourpre",
+	  [ "GUN"] = "Gundrak",
+	  [ "HOL"] = "Les salles de Pierre",
+	  [ "HOS"] = "Les salles de Foudre",
+	  [ "COS"] = "L'Épuration de Stratholme",
+	  [ "OCC"] = "L'Oculus",
+	  [ "FOS"] = "La Forge des Âmes",
+	  [ "POS"] = "Fosse de Saron",
+	  [ "HOR"] = "Salles des Reflets",
+	  [ "EOE"] = "L'Œil de l'éternité (25)",
+	  [ "OS"] = "Le sanctum Obsidien (25)",
+	  [ "VOA"] = "Caveau d'Archavon (25)",
+	  [ "ULDUAR"] = "Ulduar (25)",
+	  [ "TOC"] = "L'épreuve du croisé (25)",
+	  [ "TOGC"] = "L'épreuve du grand croisé (25)",
+	  [ "ICC"] = "Citadelle de la Couronne de glace (25)",
+	  [ "RS"] = "Le sanctum Rubis (25)",
     },
     esMX = {
       [ "RFC" ] = "Sima Ígnea",
@@ -271,25 +362,57 @@ function GBB.GetDungeonNames()
       [ "HYJAL" ] = "The Battle For Mount Hyjal",
       [ "BT" ] = "Black Temple",
       [ "SWP" ] = "Sunwell Plateau",
-      [ "ONY" ] = "Guarida de Onyxia (40)",
-      [ "MC" ] = "Núcleo de Magma (40)",
+      [ "ONY" ] = "Guarida de Onyxia (25)",
+      [ "MC" ] = "Núcleo de Magma (25)",
       [ "ZG" ] = "Zul'Gurub (20)",
       [ "AQ20" ] = "Ruinas de Ahn'Qiraj (20)",
-      [ "BWL" ] = "Guarida Alanegra (40)",
-      [ "AQ40" ] = "Ahn'Qiraj (40)",
-      [ "NAXX" ] = "Naxxramas (40)",
+      [ "BWL" ] = "Guarida Alanegra (25)",
+      [ "AQ40" ] = "Ahn'Qiraj (25)",
+      [ "NAXX" ] = "Naxxramas (25)",
       [ "ARENA" ] = "Arena (PvP)",
+	  [ "DEBUG" ] = "INFORMACIÓN DE DEPURACIÓN",
+	  [ "BAD" ] = "PALABRAS INAPROPIADAS EN DEPURACIÓN - RECHAZADO",
+	  [ "BREW" ] = "Fiesta de la Cerveza - Ceren Pezuñaamarga",
+	  [ "HOLLOW" ] = "Halloween - El Jinete Decapitado",
+	  [ "LOVE" ] = "Amor en el Aire",
+	  [ "NOBLEGARDEN" ] = "Jardín de los Nobles",
+	  [ "MIDSUMMER" ] = "Festival del Fuego del Solsticio de Verano",
+	  [ "HARVEST" ] = "Festival de la Cosecha",
+	  [ "WINTERVEIL" ] = "Festival de Invierno",
+	  [ "UK"] = "Fortaleza de Utgarde",
+	  [ "UP"] = "Pináculo de Utgarde",
+	  [ "NEX"] = "El Nexo",
+	  [ "AN"] = "Azjol-Nerub",
+	  [ "AK"] = "Ahn'kahet: El Reino Antiguo",
+	  [ "DTK"] = "Fortaleza de Drak'Tharon",
+	  [ "VH"] = "El Bastión Violeta",
+	  [ "GUN"] = "Gundrak",
+	  [ "HOL"] = "Cámaras de Piedra",
+	  [ "HOS"] = "Cámaras de Relámpagos",
+	  [ "COS"] = "La Matanza de Stratholme",
+	  [ "OCC"] = "El Oculus",
+	  [ "FOS"] = "La Forja de Almas",
+	  [ "POS"] = "Fosa de Saron",
+	  [ "HOR"] = "Cámaras de Reflexión",
+	  [ "EOE"] = "El Ojo de la Eternidad (25)",
+	  [ "OS"] = "El Santuario de Obsidiana (25)",
+	  [ "VOA"] = "Cámara de Archavon (25)",
+	  [ "ULDUAR"] = "Ulduar (25)",
+	  [ "TOC"] = "Prueba del Cruzado (25)",
+	  [ "TOGC"] = "Prueba del Gran Cruzado (25)",
+	  [ "ICC"] = "Ciudadela de la Corona de Hielo (25)",
+	  [ "RS"] = "El Santuario Rubí (25)",
 
     },
     ruRU = {
       [ "AB" ] = "Низина Арати (PvP)",
       [ "AQ20" ] = "Руины Ан'Киража (20)",
-      [ "AQ40" ] = "Ан'Кираж (40)",
+      [ "AQ40" ] = "Ан'Кираж (25)",
       [ "AV" ] = "Альтеракская Долина (PvP)",
       [ "BAD" ] = "ОТЛАДКА ПЛОХИЕ СЛОВА - ОТКЛОНЕН",
       [ "BFD" ] = "Непроглядная Пучина",
       [ "BRD" ] = "Глубины Черной горы",
-      [ "BWL" ] = "Логово Крыла Тьмы (40)",
+      [ "BWL" ] = "Логово Крыла Тьмы (25)",
       [ "DEBUG" ] = "ИНФОРМАЦИЯ О ОТЛАДКАХ",
       [ "DM" ] = "Мертвые копи",
       [ "DM2" ] = "Забытый Город",
@@ -299,9 +422,9 @@ function GBB.GetDungeonNames()
       [ "GNOMER" ] = "Гномреган",
       [ "LBRS" ] = "Низ Вершины Черной горы",
       [ "MARA" ] = "Мародон",
-      [ "MC" ] = "Огненные Недра (40)",
+      [ "MC" ] = "Огненные Недра (25)",
       [ "MISC" ] = "Прочее",
-      [ "NAXX" ] = "Наксрамас (40)",
+      [ "NAXX" ] = "Наксрамас (25)",
       [ "RAMPS" ] = "Цитадель Адского Пламени: Бастионы",
       [ "BF" ] = "Цитадель Адского Пламени: Кузня Крови",
       [ "SP" ] = "Резервуар Кривого Клыка: Узилище",
@@ -327,7 +450,7 @@ function GBB.GetDungeonNames()
       [ "HYJAL" ] = "Пещеры Времени: Вершина Хиджала",
       [ "BT" ] = "Черный Храм",
       [ "SWP" ] = "Плато Солнечного Колодца",
-      [ "ONY" ] = "Логово Ониксии (40)",
+      [ "ONY" ] = "Логово Ониксии (25)",
       [ "RFC" ] = "Огненная пропасть",
       [ "RFD" ] = "Курганы Иглошкурых",
       [ "RFK" ] = "Лабиринты Иглошкурых",
@@ -350,6 +473,38 @@ function GBB.GetDungeonNames()
       [ "ARENA" ] = "Arena (PvP)",
       [ "ZF" ] = "Зул'Фаррак",
       [ "ZG" ] = "Зул'Гуруб (20)",
+	  [ "DEBUG" ] = "ОТЛАДОЧНАЯ ИНФОРМАЦИЯ",
+	  [ "BAD" ] = "ОТЛАДКА ПЛОХИХ СЛОВ - ОТКЛОНЕНО",
+	  [ "BREW" ] = "Хмельной фестиваль - Корен Хмуродёрн",
+	  [ "HOLLOW" ] = "Тыквовин - Всадник без головы",
+	  [ "LOVE" ] = "Любовная лихорадка",
+	  [ "NOBLEGARDEN" ] = "Праздник Весны",
+	  [ "MIDSUMMER" ] = "Огненный солнцеворот",
+	  [ "HARVEST" ] = "Неделя урожая",
+	  [ "WINTERVEIL" ] = "Пир Зимнего Покрова",
+	  [ "UK"] = "Крепость Утгард",
+	  [ "UP"] = "Вершина Утгард",
+	  [ "NEX"] = "Нексус",
+	  [ "AN"] = "Азжол-Неруб",
+	  [ "AK"] = "Ан'кахет: Старое Королевство",
+	  [ "DTK"] = "Крепость Драк'Тарон",
+	  [ "VH"] = "Аметистовая крепость",
+	  [ "GUN"] = "Гундрак",
+	  [ "HOL"] = "Залы Камня",
+	  [ "HOS"] = "Залы Молний",
+	  [ "COS"] = "Очищение Стратхольма",
+	  [ "OCC"] = "Окулус",
+	  [ "FOS"] = "Кузня Душ",
+	  [ "POS"] = "Яма Сарона",
+	  [ "HOR"] = "Залы Отражений",
+	  [ "EOE"] = "Око Вечности (25)",
+	  [ "OS"] = "Обсидиановое святилище (25)",
+	  [ "VOA"] = "Свод Аркавона (25)",
+	  [ "ULDUAR"] = "Ульдуар (25)",
+	  [ "TOC"] = "Испытание крестоносца (25)",
+	  [ "TOGC"] = "Испытание Верховного крестоносца (25)",
+	  [ "ICC"] = "Цитадель Ледяной Короны (25)",
+	  [ "RS"] = "Рубиновое святилище (25)",
     },
     zhTW = {
       [ "RFC" ] = "怒焰裂谷",
@@ -404,19 +559,51 @@ function GBB.GetDungeonNames()
       [ "HYJAL" ] = "海加爾山 (25)",
       [ "BT" ] = "黑暗神廟 (25)",
       [ "SWP" ] = "太陽之井高地 (25)",
-      [ "ONY" ] = "奧妮克希亞的巢穴 (40)",
-      [ "MC" ] = "熔火之心 (40)",
+      [ "ONY" ] = "奧妮克希亞的巢穴 (25)",
+      [ "MC" ] = "熔火之心 (25)",
       [ "ZG" ] = "祖爾格拉布 (20)",
       [ "AQ20" ] = "安其拉廢墟 (20)",
-      [ "BWL" ] = "黑翼之巢 (40)",
-      [ "AQ40" ] = "安其拉 (40)",
-      [ "NAXX" ] = "納克薩瑪斯 (40)",
+      [ "BWL" ] = "黑翼之巢 (25)",
+      [ "AQ40" ] = "安其拉 (25)",
+      [ "NAXX" ] = "納克薩瑪斯 (25)",
       [ "WSG" ] = "戰歌峽谷 (PvP)",
       [ "AB" ] = "阿拉希盆地 (PvP)",
       [ "AV" ] = "奧特蘭克山谷 (PvP)",
       [ "EOTS" ] = "暴風之眼 (PvP)",
       [ "MISC" ] = "未分類",
       [ "TRADE" ] = "交易",
+	  [ "DEBUG" ] = "除錯資訊",
+	  [ "BAD" ] = "除錯不良詞語 - 已拒絕",
+	  [ "BREW" ] = "啤酒節 - 科倫·恐酒",
+	  [ "HOLLOW" ] = "萬鬼節 - 無頭騎士",
+	  [ "LOVE" ] = "愛就在身邊",
+	  [ "NOBLEGARDEN" ] = "貴族花園",
+	  [ "MIDSUMMER" ] = "仲夏火焰節",
+	  [ "HARVEST" ] = "收穫節",
+	  [ "WINTERVEIL" ] = "冬幕節",
+	  [ "UK"] = "俄特加德之巔",
+	  [ "UP"] = "俄特加德之巔",
+	  [ "NEX"] = "奧核之心",
+	  [ "AN"] = "阿茲歐-奈幽",
+	  [ "AK"] = "安卡罕特：古王國",
+	  [ "DTK"] = "德拉克薩隆要塞",
+	  [ "VH"] = "紫羅蘭堡",
+	  [ "GUN"] = "剛德拉克",
+	  [ "HOL"] = "石之大廳",
+	  [ "HOS"] = "雷光大廳",
+	  [ "COS"] = "斯坦索姆的抉擇",
+	  [ "OCC"] = "奧核之眼",
+	  [ "FOS"] = "眾魂熔爐",
+	  [ "POS"] = "薩倫之淵",
+	  [ "HOR"] = "倒影大廳",
+	  [ "EOE"] = "永恆之眼 (25)",
+	  [ "OS"] = "黑曜聖所 (25)",
+	  [ "VOA"] = "亞夏梵穹殿 (25)",
+	  [ "ULDUAR" ] = "奧杜亞 (25)",
+	  [ "TOC"] = "十字軍試煉 (25)",
+	  [ "TOGC"] = "大十字軍試煉 (25)",
+	  [ "ICC"] = "冰冠城塞 (25)",
+	  [ "RS"] = "晶紅聖所 (25)",
     },
   }
 
@@ -569,9 +756,61 @@ GBB.TbcDungeonLevels     = {
   [ "BT" ] = { 70, 70 },
   [ "SWP" ] = { 70, 70 },
   [ "EOTS" ] = { 15, 70 },
-  [ "ARENA" ] = { 70, 70 },
   [ "BREW" ] = { 65, 70 },
   [ "HOLLOW" ] = { 65, 70 },
+}
+
+GBB.WotlkDungeonLevels = {
+    -- Normal Dungeons
+    [ "UK"] = { 58, 80 },
+    [ "NEX"] = { 59, 80 },
+    [ "AN"] = { 60, 80 },
+    [ "AK"] = { 61, 80 },
+    [ "DTK"] = { 62, 80 },
+    [ "VH"] = { 63, 80 },
+    [ "GUN"] = { 64, 80 },
+	[ "HOS"] = { 65, 80 },
+    [ "HOL"] = { 67, 80 },
+    [ "OCC"] = { 67, 80 },
+    [ "UP"] = { 67, 80 },
+    [ "COS"] = { 68, 80 },
+    [ "UK_H"] = { 80, 80 },
+    [ "NEX_H"] = { 80, 80 },
+    [ "AN_H"] = { 80, 80 },
+    [ "AK_H"] = { 80, 80 },
+    [ "DTK_H"] = { 80, 80 },
+    [ "VH_H"] = { 80, 80 },
+    [ "GUN_H"] = { 80, 80 },
+    [ "HOL_H"] = { 80, 80 },
+    [ "HOS_H"] = { 80, 80 },
+    [ "COS_H"] = { 80, 80 },
+    [ "OCC_H"] = { 80, 80 },
+    [ "UP_H"] = { 80, 80 },
+    [ "FOS"] = { 70, 80 },
+    [ "POS"] = { 70, 80 },
+    [ "HOR"] = { 70, 80 },
+    [ "NAXX_WOTLK"] = { 80, 80 },
+    [ "EOE"] = { 80, 80 },
+    [ "OS"] = { 80, 80 },
+    [ "VOA"] = { 80, 80 },
+    [ "ULDUAR"] = { 80, 80 },
+    [ "TOC"] = { 68, 80 },
+    [ "TOGC"] = { 80, 80 },
+    [ "ICC"] = { 80, 80 },
+    [ "RS"] = { 80, 80 },
+	[ "LOVE" ] = { 1, 80 },
+	[ "NOBLEGARDEN" ] = { 1, 80 },
+	[ "MIDSUMMER" ] = { 1, 80 },
+	[ "HARVEST" ] = { 1, 80 },
+	[ "HALLOW" ] = { 1, 80 },
+	[ "WINTERVEIL" ] = { 1, 80 },
+	[ "ARENA" ] = { 80, 80 },
+}
+
+GBB.WotlkDungeonNames = {
+    "UK", "NEX", "AN", "AK", "DTK", "VH", "GUN", "HOL", "HOS", "COS", "OCC", "UP",
+    "UK_H", "NEX_H", "AN_H", "AK_H", "DTK_H", "VH_H", "GUN_H", "HOL_H", "HOS_H", "COS_H", "OCC_H", "UP_H",
+    "FOS", "POS", "HOR"
 }
 
 GBB.TbcDungeonNames      = {
@@ -603,12 +842,24 @@ GBB.Raids = {
   "ONY", "MC", "ZG", "AQ20", "BWL", "AQ40", "NAXX",
   "KARA", "GRUULS", "MAGS", "SSC", "EYE", "ZA", "HYJAL",
   "BT", "SWP", "ARENA", "WSG", "AV", "AB", "EOTS",
-  "BREW", "HOLLOW",
+  "BREW", "HOLLOW", "LOVE", "NOBLEGARDEN", "MIDSUMMER", "HARVEST", "WINTERVEIL", "EOE", "OS", "VOA", "ULDUAR", "TOC", "TOGC", "ICC", "RS",
+}
+
+GBB.WotlkRaidNames = {
+    "NAXX_WOTLK", "EOE", "OS", "VOA", "ULDUAR", "TOC", "TOGC", "ICC", "RS"
 }
 
 GBB.Seasonal = {
+  -- Classic/TBC Events
   [ "BREW" ] = { startDate = "09/19", endDate = "10/07" },
-  [ "HOLLOW" ] = { startDate = "10/16", endDate = "11/01" }
+  [ "HOLLOW" ] = { startDate = "10/16", endDate = "11/01" },
+  
+  -- WotLK Events
+  [ "LOVE" ] = { startDate = "02/05", endDate = "02/20" }, -- Love is in the Air
+  [ "NOBLEGARDEN" ] = { startDate = "04/22", endDate = "05/05" }, -- Noblegarden
+  [ "MIDSUMMER" ] = { startDate = "06/21", endDate = "07/05" }, -- Midsummer Fire Festival
+  [ "HARVEST" ] = { startDate = "09/26", endDate = "10/07" }, -- Harvest Festival
+  [ "WINTERVEIL" ] = { startDate = "12/15", endDate = "01/02" } -- Feast of Winter Veil
 }
 
 GBB.SeasonalActiveEvents = {}
@@ -640,50 +891,82 @@ local function ConcatenateLists( Names )
 end
 
 function GBB.GetDungeonSort()
-  for eventName, eventData in pairs( GBB.Seasonal ) do
-    if GBB.Tool.InDateRange( eventData.startDate, eventData.endDate ) then
-      table.insert( GBB.TbcDungeonNames, 1, eventName )
-    else
-      table.insert( GBB.DebugNames, 1, eventName )
+    -- Separate seasonal events by expansion
+    local classicEvents = {}
+    local wotlkEvents = {}
+    
+    for eventName, eventData in pairs(GBB.Seasonal) do
+        if GBB.Tool.InDateRange(eventData.startDate, eventData.endDate) then
+            -- Classic/TBC events go with TBC dungeons
+            if eventName == "BREW" or eventName == "HOLLOW" then
+                table.insert(classicEvents, eventName)
+            else
+                -- WotLK events go with WotLK dungeons
+                table.insert(wotlkEvents, eventName)
+            end
+        else
+            table.insert(GBB.DebugNames, 1, eventName)
+        end
     end
-  end
+    
+    -- Add events to their respective expansion sections
+    for _, event in ipairs(classicEvents) do
+        table.insert(GBB.TbcDungeonNames, 1, event)
+    end
+    
+    for _, event in ipairs(wotlkEvents) do
+        table.insert(GBB.WotlkDungeonNames, 1, event)
+    end
 
-  local dungeonOrder = { GBB.VanillDungeonNames, GBB.TbcDungeonNames, GBB.PvpNames, GBB.Misc, GBB.DebugNames }
+    local dungeonOrder = { GBB.VanillDungeonNames, GBB.TbcDungeonNames, GBB.WotlkDungeonNames, GBB.WotlkRaidNames, GBB.PvpNames, GBB.Misc, GBB.DebugNames }
 
-  -- Why does Lua not having a fucking size function
-  local vanillaDungeonSize = 0
-  for _, _ in pairs( GBB.VanillDungeonNames ) do
-    vanillaDungeonSize = vanillaDungeonSize + 1
-  end
+    -- Calculate sizes for each expansion
+    local vanillaDungeonSize = #GBB.VanillDungeonNames
+    local tbcDungeonSize = #GBB.TbcDungeonNames
+    local wotlkDungeonSize = #GBB.WotlkDungeonNames
+    local wotlkRaidSize = #GBB.WotlkRaidNames
+    local pvpSize = #GBB.PvpNames
+    local miscSize = #GBB.Misc
+    local debugSize = #GBB.DebugNames
 
-  local debugSize = 0
-  for _, _ in pairs( GBB.DebugNames ) do
-    debugSize = debugSize + 1
-  end
+    -- Set expansion boundaries
+    GBB.TBCDUNGEONSTART = vanillaDungeonSize + 1
+    GBB.WOTLKDUNGEONSTART = vanillaDungeonSize + tbcDungeonSize + 1
+    GBB.WOTLKRAIDSTART = GBB.WOTLKDUNGEONSTART + wotlkDungeonSize
+    GBB.PVPSTART = GBB.WOTLKRAIDSTART + wotlkRaidSize
+    GBB.MISCSTART = GBB.PVPSTART + pvpSize
+    
+    GBB.MAXDUNGEON = vanillaDungeonSize + tbcDungeonSize + wotlkDungeonSize + wotlkRaidSize + pvpSize + miscSize
+    
+    -- For TBC filter panel (exclude WotLK content)
+    GBB.TBCMAXDUNGEON = GBB.WOTLKDUNGEONSTART - 1
+    
+    -- For WotLK filter panel
+    GBB.WOTLKMAXDUNGEON = GBB.PVPSTART - 1
+    
+    -- Split points for 2-column layout
+    GBB.DUNGEONBREAK = 25  -- Vanilla split
+    GBB.TBCDUNGEONBREAK = GBB.TBCDUNGEONSTART + math.floor((GBB.TBCMAXDUNGEON - GBB.TBCDUNGEONSTART) / 2)  -- TBC split
+    GBB.WOTLKDUNGEONBREAK = GBB.WOTLKDUNGEONSTART + math.floor((GBB.WOTLKMAXDUNGEON - GBB.WOTLKDUNGEONSTART) / 2)  -- WotLK split
 
-  GBB.TBCDUNGEONSTART = vanillaDungeonSize + 1
-  GBB.MAXDUNGEON = vanillaDungeonSize
+    local tmp_dsort, concatenatedSize = ConcatenateLists(dungeonOrder)
+    local dungeonSort = {}
 
-  local tmp_dsort, concatenatedSize = ConcatenateLists( dungeonOrder )
-  local dungeonSort = {}
+    for dungeon, nb in pairs(tmp_dsort) do
+        dungeonSort[nb] = dungeon
+        dungeonSort[dungeon] = nb
+    end
 
-  GBB.TBCMAXDUNGEON = concatenatedSize - debugSize - 1
+    -- Need to do this because I don't know I am too lazy to debug the use of SM2, DM2, and DEADMINES
+    dungeonSort["SM2"] = 10.5
+    dungeonSort["DM2"] = 19.5
+    dungeonSort["DEADMINES"] = 99
 
-  for dungeon, nb in pairs( tmp_dsort ) do
-    dungeonSort[ nb ] = dungeon
-    dungeonSort[ dungeon ] = nb
-  end
-
-  -- Need to do this because I don't know I am too lazy to debug the use of SM2, DM2, and DEADMINES
-  dungeonSort[ "SM2" ] = 10.5
-  dungeonSort[ "DM2" ] = 19.5
-  dungeonSort[ "DEADMINES" ] = 99
-
-  return dungeonSort
+    return dungeonSort
 end
 
 local function DetermineVanillDungeonRange()
   return GBB.PostTbcDungeonLevels
 end
 
-GBB.dungeonLevel = Union( DetermineVanillDungeonRange(), GBB.TbcDungeonLevels )
+GBB.dungeonLevel = Union(Union(DetermineVanillDungeonRange(), GBB.TbcDungeonLevels), GBB.WotlkDungeonLevels)

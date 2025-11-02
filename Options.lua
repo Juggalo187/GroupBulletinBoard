@@ -28,6 +28,12 @@ local function CreateEditBoxDungeon( Dungeon, Init, width, width2 )
     GBB.DB.Custom[ Dungeon ] = GBB.DB[ "Custom_" .. Dungeon ]
     GBB.DB[ "Custom_" .. Dungeon ] = nil
   end
+  
+  -- Initialize custom tag if it doesn't exist
+  if GBB.DB.Custom[Dungeon] == nil then
+    GBB.DB.Custom[Dungeon] = Init or ""
+  end
+  
   if GBB.dungeonNames[ Dungeon ] then
     GBB.Options.AddEditBox( GBB.DB.Custom, Dungeon, Init,
       GBB.dungeonNames[ Dungeon ] .. " " .. GBB.LevelRange( Dungeon, true ),
@@ -103,8 +109,10 @@ function GBB.OptionsUpdate()
 end
 
 local DoSelectFilter = function( state, ChkBox, Start, Max )
-  for index = Start, Max do ---trade -misc
-    ChkBox[ index ]:SetChecked( state )
+  for index = Start, Max do
+    if ChkBox[ index ] then
+      ChkBox[ index ]:SetChecked( state )
+    end
   end
 end
 
@@ -205,6 +213,7 @@ function GBB.OptionsInit()
   CheckBox( "ShowClassIcon", true )
   GBB.Options.EndInLine()
   CheckBox( "RemoveRaidSymbols", true )
+  CheckBox("FilterTradeChat", true)
   CheckBox( "FilterNonAsciiMessages", false )
   CheckBox( "ChatStyle", false )
   CheckBox( "CompactStyle", false )
@@ -237,24 +246,97 @@ function GBB.OptionsInit()
   GBB.Options.Indent( -23 )
   GBB.Options.AddSpace()
   CheckBox( "OnDebug", false )
+  
+    -- First panel for WotLK Panel Filter
+GBB.Options.AddPanel( GBB.L["WotLKPanelFilter"] or "WotLK Dungeon Filter", false, true )
+GBB.Options.AddCategory( GBB.L["HeaderDungeon"] )
+GBB.Options.Indent( 10 )
+
+local WotlkChkBox_FilterDungeon = {}
+
+	-- Left column - WotLK Dungeons (Normal & Heroic)
+	for index = GBB.WOTLKDUNGEONSTART, GBB.WOTLKDUNGEONBREAK do
+		local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] and not tContains(GBB.WotlkRaidNames, dungeon) then
+			WotlkChkBox_FilterDungeon[ index ] = CheckBoxFilter( dungeon, true )
+		end
+	end
+	
+	GBB.Options.SetRightSide()
+	GBB.Options.Indent( 10 )
+	
+	-- Right column - WotLK Dungeons (continued)
+	for index = GBB.WOTLKDUNGEONBREAK + 1, GBB.WOTLKMAXDUNGEON do
+		local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] and not tContains(GBB.WotlkRaidNames, dungeon) then
+			WotlkChkBox_FilterDungeon[ index ] = CheckBoxFilter( dungeon, true )
+		end
+	end
+	
+	-- WotLK Raids section - Separate category
+	GBB.Options.AddSpace()
+	GBB.Options.AddCategory( GBB.L["HeaderRaids"] or "Raids" )
+	for index = GBB.WOTLKRAIDSTART, GBB.PVPSTART - 1 do
+		local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] then
+			WotlkChkBox_FilterDungeon[ index ] = CheckBoxFilter( dungeon, true )
+		end
+	end
+	
+	-- Additional filter options
+	GBB.Options.AddSpace()
+	CheckBoxChar( "FilterLevel", false )
+	CheckBoxChar( "DontFilterOwn", false )
+	CheckBoxChar( "HeroicOnly", false )
+	CheckBoxChar( "NormalOnly", false )
+	
+	GBB.Options.InLine()
+	GBB.Options.AddButton( GBB.L[ "BtnSelectAll" ], function()
+		-- Select only dungeons, not raids
+		DoSelectFilter( true, WotlkChkBox_FilterDungeon, GBB.WOTLKDUNGEONSTART, GBB.WOTLKMAXDUNGEON )
+	end )
+	GBB.Options.AddButton( GBB.L[ "BtnUnselectAll" ], function()
+		-- Unselect only dungeons, not raids  
+		DoSelectFilter( false, WotlkChkBox_FilterDungeon, GBB.WOTLKDUNGEONSTART, GBB.WOTLKMAXDUNGEON )
+	end )
+	GBB.Options.EndInLine()
+	
+	-- Add separate raid select buttons
+	GBB.Options.InLine()
+	GBB.Options.AddButton( GBB.L[ "BtnSelectAll" ] .. " Raids", function()
+		DoSelectFilter( true, WotlkChkBox_FilterDungeon, GBB.WOTLKRAIDSTART, GBB.PVPSTART - 1 )
+	end )
+	GBB.Options.AddButton( GBB.L[ "BtnUnselectAll" ] .. " Raids", function()
+		DoSelectFilter( false, WotlkChkBox_FilterDungeon, GBB.WOTLKRAIDSTART, GBB.PVPSTART - 1 )
+	end )
+	GBB.Options.EndInLine()
+	
+	GBB.Options.Indent( -10 )
+	GBB.Options.NextRelativY = -25
 
   -- Second Panel for TBC Dungeons
-  GBB.Options.AddPanel( GBB.L[ "TBCPanelFilter" ] )
+  GBB.Options.AddPanel( GBB.L[ "TBCPanelFilter" ], false, true )
   GBB.Options.AddCategory( GBB.L[ "HeaderDungeon" ] )
   GBB.Options.Indent( 10 )
 
   TbcChkBox_FilterDungeon = {}
 
   for index = GBB.TBCDUNGEONSTART, GBB.TBCDUNGEONBREAK do
-    TbcChkBox_FilterDungeon[ index ] = CheckBoxFilter( GBB.dungeonSort[ index ], true )
-  end
+		local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] then
+			TbcChkBox_FilterDungeon[ index ] = CheckBoxFilter( dungeon, true )
+		end
+	end
 
   GBB.Options.SetRightSide()
   --GBB.Options.AddCategory("")
   GBB.Options.Indent( 10 )
-  for index = GBB.TBCDUNGEONBREAK + 1, GBB.TBCMAXDUNGEON do
-    TbcChkBox_FilterDungeon[ index ] = CheckBoxFilter( GBB.dungeonSort[ index ], true )
-  end
+  for index = GBB.TBCDUNGEONBREAK + 1, GBB.WOTLKDUNGEONSTART - 1 do
+		local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] then
+			TbcChkBox_FilterDungeon[ index ] = CheckBoxFilter( dungeon, true )
+		end
+	end
   --GBB.Options.AddSpace()
   CheckBoxChar( "FilterLevel", false )
   CheckBoxChar( "DontFilterOwn", false )
@@ -264,14 +346,14 @@ function GBB.OptionsInit()
 
   --GBB.Options.AddSpace()
 
-  GBB.Options.InLine()
-  GBB.Options.AddButton( GBB.L[ "BtnSelectAll" ], function()
-    DoSelectFilter( true, TbcChkBox_FilterDungeon, GBB.TBCDUNGEONSTART, GBB.TBCMAXDUNGEON - 2 ) -- Doing -2 to not select trade and misc
-  end )
-  GBB.Options.AddButton( GBB.L[ "BtnUnselectAll" ], function()
-    DoSelectFilter( false, TbcChkBox_FilterDungeon, GBB.TBCDUNGEONSTART, GBB.TBCMAXDUNGEON )
-  end )
-  GBB.Options.EndInLine()
+	GBB.Options.InLine()
+	GBB.Options.AddButton( GBB.L[ "BtnSelectAll" ], function()
+		DoSelectFilter( true, TbcChkBox_FilterDungeon, GBB.TBCDUNGEONSTART, GBB.WOTLKDUNGEONSTART - 1 )
+	end )
+	GBB.Options.AddButton( GBB.L[ "BtnUnselectAll" ], function()
+		DoSelectFilter( false, TbcChkBox_FilterDungeon, GBB.TBCDUNGEONSTART, GBB.WOTLKDUNGEONSTART - 1 )
+	end )
+	GBB.Options.EndInLine()
 
   GBB.Options.Indent( -10 )
 
@@ -280,38 +362,41 @@ function GBB.OptionsInit()
   --GBB.Options.AddSpace()
   SetChatOption()
 
-  -- Third panel - Filter
-  GBB.Options.AddPanel( GBB.L[ "PanelFilter" ] )
+  -- Third panel - Vanilla Filter
+  GBB.Options.AddPanel( GBB.L[ "PanelFilter" ], false, true )
   GBB.Options.AddCategory( GBB.L[ "HeaderDungeon" ] )
   GBB.Options.Indent( 10 )
 
   local defaultChecked = false
 
   ChkBox_FilterDungeon = {}
-  for index = 1, GBB.DUNGEONBREAK do
-    ChkBox_FilterDungeon[ index ] = CheckBoxFilter( GBB.dungeonSort[ index ], defaultChecked )
-  end
+   for index = 1, math.min(GBB.DUNGEONBREAK, GBB.TBCDUNGEONSTART - 1) do
+		local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] then
+			ChkBox_FilterDungeon[ index ] = CheckBoxFilter( dungeon, defaultChecked )
+		end
+	end
 
   GBB.Options.SetRightSide()
   --GBB.Options.AddCategory("")
   GBB.Options.Indent( 10 )
-  for index = GBB.DUNGEONBREAK + 1, GBB.MAXDUNGEON do
-    ChkBox_FilterDungeon[ index ] = CheckBoxFilter( GBB.dungeonSort[ index ], defaultChecked )
-  end
+  for index = GBB.DUNGEONBREAK + 1, GBB.TBCDUNGEONSTART - 1 do
+		local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] then
+			ChkBox_FilterDungeon[ index ] = CheckBoxFilter( dungeon, defaultChecked )
+		end
+	end
 
   --GBB.Options.AddSpace()
 
-
-  --GBB.Options.AddSpace()
-
-  GBB.Options.InLine()
-  GBB.Options.AddButton( GBB.L[ "BtnSelectAll" ], function()
-    DoSelectFilter( true, ChkBox_FilterDungeon, 1, GBB.MAXDUNGEON )
-  end )
-  GBB.Options.AddButton( GBB.L[ "BtnUnselectAll" ], function()
-    DoSelectFilter( false, ChkBox_FilterDungeon, 1, GBB.MAXDUNGEON )
-  end )
-  GBB.Options.EndInLine()
+	GBB.Options.InLine()
+	GBB.Options.AddButton( GBB.L[ "BtnSelectAll" ], function()
+		DoSelectFilter( true, ChkBox_FilterDungeon, 1, GBB.TBCDUNGEONSTART - 1 )
+	end )
+	GBB.Options.AddButton( GBB.L[ "BtnUnselectAll" ], function()
+		DoSelectFilter( false, ChkBox_FilterDungeon, 1, GBB.TBCDUNGEONSTART - 1 )
+	end )
+	GBB.Options.EndInLine()
 
   GBB.Options.Indent( -10 )
 
@@ -344,12 +429,29 @@ function GBB.OptionsInit()
   CreateEditBoxDungeon( "Heroic", "", 450, 200 )
 
   GBB.Options.AddSpace()
-  for index = 1, GBB.MAXDUNGEON do
-    CreateEditBoxDungeon( GBB.dungeonSort[ index ], "", 445, 200 )
-  end
-  for index = GBB.TBCDUNGEONSTART, GBB.TBCMAXDUNGEON do
-    CreateEditBoxDungeon( GBB.dungeonSort[ index ], "", 445, 200 )
-  end
+	-- Vanilla dungeons
+	for index = 1, GBB.TBCDUNGEONSTART - 1 do
+	local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] then
+			CreateEditBoxDungeon( dungeon, "", 445, 200 )
+		end
+	end
+	
+	-- TBC dungeons
+	for index = GBB.TBCDUNGEONSTART, GBB.TBCMAXDUNGEON do
+	local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] then
+			CreateEditBoxDungeon( dungeon, "", 445, 200 )
+		end
+	end
+	
+	-- WotLK dungeons and raids
+	for index = GBB.WOTLKDUNGEONSTART, GBB.PVPSTART - 1 do
+	local dungeon = GBB.dungeonSort[index]
+		if dungeon and GBB.dungeonNames[dungeon] then
+			CreateEditBoxDungeon( dungeon, "", 445, 200 )
+		end
+	end
   GBB.Options.AddSpace()
   CreateEditBoxDungeon( "SM2", "", 445, 200 )
   CreateEditBoxDungeon( "DM2", "", 445, 200 )
@@ -372,32 +474,39 @@ function GBB.OptionsInit()
 
     GBB.Options.AddEditBox( GBB.DB.CustomLocales, key, "", col .. "[" .. key .. "]", 450, 200, false, locales[ key ], txt )
   end
-  --locales dungeons
-  GBB.Options.AddSpace()
-  locales = getmetatable( GBB.dungeonNames ).__index
-  for i = 1, GBB.MAXDUNGEON do
-    local key = GBB.dungeonSort[ i ]
-
-    local col = GBB.dungeonNames[ key ] ~= locales[ key ] and "|cffffffff" or "|cffff4040"
-
-    local txt = GBB.dungeonNames[ key .. "_org" ] ~= nil and GBB.dungeonNames[ key .. "_org" ] or GBB.dungeonNames
-        [ key ]
-
-    GBB.Options.AddEditBox( GBB.DB.CustomLocalesDungeon, key, "", col .. locales[ key ], 450, 200, false, locales[ key ],
-      txt )
-  end
-
-  for i = GBB.TBCDUNGEONSTART, GBB.TBCMAXDUNGEON do
-    local key = GBB.dungeonSort[ i ]
-
-    local col = GBB.dungeonNames[ key ] ~= locales[ key ] and "|cffffffff" or "|cffff4040"
-
-    local txt = GBB.dungeonNames[ key .. "_org" ] ~= nil and GBB.dungeonNames[ key .. "_org" ] or GBB.dungeonNames
-        [ key ]
-
-    GBB.Options.AddEditBox( GBB.DB.CustomLocalesDungeon, key, "", col .. locales[ key ], 450, 200, false, locales[ key ],
-      txt )
-  end
+	--locales dungeons
+	GBB.Options.AddSpace()
+	locales = getmetatable( GBB.dungeonNames ).__index
+	
+	-- Vanilla dungeons
+	for i = 1, GBB.TBCDUNGEONSTART - 1 do
+	local key = GBB.dungeonSort[i]
+	if key and locales[key] then
+		local col = GBB.dungeonNames[ key ] ~= locales[ key ] and "|cffffffff" or "|cffff4040"
+		local txt = GBB.dungeonNames[ key .. "_org" ] ~= nil and GBB.dungeonNames[ key .. "_org" ] or GBB.dungeonNames[key]
+		GBB.Options.AddEditBox( GBB.DB.CustomLocalesDungeon, key, "", col .. locales[ key ], 450, 200, false, locales[ key ], txt )
+	end
+	end
+	
+	-- TBC dungeons
+	for i = GBB.TBCDUNGEONSTART, GBB.TBCMAXDUNGEON do
+	local key = GBB.dungeonSort[i]
+	if key and locales[key] then
+		local col = GBB.dungeonNames[ key ] ~= locales[ key ] and "|cffffffff" or "|cffff4040"
+		local txt = GBB.dungeonNames[ key .. "_org" ] ~= nil and GBB.dungeonNames[ key .. "_org" ] or GBB.dungeonNames[key]
+		GBB.Options.AddEditBox( GBB.DB.CustomLocalesDungeon, key, "", col .. locales[ key ], 450, 200, false, locales[ key ], txt )
+	end
+	end
+	
+	-- WotLK dungeons and raids
+	for i = GBB.WOTLKDUNGEONSTART, GBB.PVPSTART - 1 do
+	local key = GBB.dungeonSort[i]
+	if key and locales[key] then
+		local col = GBB.dungeonNames[ key ] ~= locales[ key ] and "|cffffffff" or "|cffff4040"
+		local txt = GBB.dungeonNames[ key .. "_org" ] ~= nil and GBB.dungeonNames[ key .. "_org" ] or GBB.dungeonNames[key]
+		GBB.Options.AddEditBox( GBB.DB.CustomLocalesDungeon, key, "", col .. locales[ key ], 450, 200, false, locales[ key ], txt )
+	end
+	end
   -- About
   local function SlashText( txt )
     GBB.Options.AddText( txt )

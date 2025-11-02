@@ -74,6 +74,13 @@ GBB.MAXCOMPACTWIDTH = 350
 -- Tools
 -------------------------------------------------------------------------------------
 
+function GBB.ClearRequestList()
+    GBB.RequestList = {}
+    GBB.ClearNeeded = true
+    GBB.UpdateList()
+    GBB.pretty_print("LFG list cleared!", GBB.colors.green)
+end
+
 function GBB.AllowInInstance()
   local inInstance, instanceType = IsInInstance()
   if instanceType == "arena" then
@@ -85,10 +92,16 @@ function GBB.AllowInInstance()
 end
 
 function GBB.Split( msg )
+  if not msg then
+    return {}
+  end
   return GBB.Tool.Split( string.gsub( string.lower( msg ), "[%p%s%c]", "+" ), "+" )
 end
 
 function GBB.SplitNoNb( msg )
+	if not msg then
+    return {}
+  end
   local msgOrg = string.lower( msg )
   msg = string.gsub( string.lower( msg ), "[´`]", "'" )
   msg = string.gsub( msg, "''", "'" )
@@ -157,18 +170,56 @@ function GBB.LevelRange( dungeon, short )
   return ""
 end
 
-function GBB.FilterDungeon( dungeon, isHeroic, isRaid )
-  if dungeon == nil then return false end
-  if isHeroic == nil then isHeroic = false end
-  if isRaid == nil then isRaid = false end
+-- In GroupBulletinBoard.lua, modify the GBB.FilterDungeon function around line 140:
+function GBB.FilterDungeon(dungeon, isHeroic, isRaid)
+    if dungeon == nil then return false end
+    
+    -- Auto-detect heroic for WotLK dungeons
+    if isHeroic == nil then
+        isHeroic = string.match(dungeon, "_H$") ~= nil
+    end
+    
+    -- Auto-detect raids for WotLK
+    if isRaid == nil then
+        isRaid = GBB.WotlkRaidNames and tContains(GBB.WotlkRaidNames, dungeon) or false
+    end
 
-  -- If the user is within the level range, or if they're max level and it's heroic.
-  local inLevelRange = (not isHeroic and GBB.dungeonLevel[ dungeon ][ 1 ] <= GBB.UserLevel and GBB.UserLevel <= GBB.dungeonLevel[ dungeon ][ 2 ]) or
-      (isHeroic and GBB.UserLevel == 70)
+    -- NEW: Filter out trade messages if enabled
+    if GBB.DB.FilterTradeChat and dungeon == "TRADE" then
+        return false
+    end
 
-  return GBB.DBChar[ "FilterDungeon" .. dungeon ] and
-      (isRaid or ((GBB.DBChar[ "HeroicOnly" ] == false or isHeroic) and (GBB.DBChar[ "NormalOnly" ] == false or isHeroic == false))) and
-      (GBB.DBChar.FilterLevel == false or inLevelRange)
+    -- Check if dungeon is filtered
+    if not GBB.DBChar["FilterDungeon" .. dungeon] then
+        return false
+    end
+
+    -- Rest of the existing function remains the same...
+    local levelData = GBB.dungeonLevel[dungeon]
+    if not levelData then return false end
+    
+    local inLevelRange = (levelData[1] <= GBB.UserLevel and GBB.UserLevel <= levelData[2])
+    
+    -- For heroic dungeons, player must be level 80
+    if isHeroic then
+        inLevelRange = (GBB.UserLevel == 80)
+    end
+
+    -- Apply filters
+    if GBB.DBChar.FilterLevel and not inLevelRange then
+        return false
+    end
+
+    -- Heroic/Normal filters
+    if isHeroic and GBB.DBChar.HeroicOnly and not isHeroic then
+        return false
+    end
+    
+    if GBB.DBChar.NormalOnly and isHeroic then
+        return false
+    end
+
+    return true
 end
 
 function GBB.formatTime( sec )
@@ -312,6 +363,18 @@ function GBB.CreateTagList()
   GBB.tagList = {}
   GBB.suffixTags = {}
   GBB.HeroicKeywords = {}
+  
+  -- Initialize dungeonTagsLoc if it's nil
+  if not GBB.dungeonTagsLoc then
+    GBB.dungeonTagsLoc = {}
+  end
+  
+  -- Initialize language tables if they don't exist
+  if not GBB.dungeonTagsLoc.enGB then GBB.dungeonTagsLoc.enGB = {} end
+  if not GBB.dungeonTagsLoc.deDE then GBB.dungeonTagsLoc.deDE = {} end
+  if not GBB.dungeonTagsLoc.ruRU then GBB.dungeonTagsLoc.ruRU = {} end
+  if not GBB.dungeonTagsLoc.frFR then GBB.dungeonTagsLoc.frFR = {} end
+  if not GBB.dungeonTagsLoc.zhTW then GBB.dungeonTagsLoc.zhTW = {} end
 
   if GBB.DB.TagsEnglish then
     GBB.CreateTagListLOC( "enGB" )
@@ -333,14 +396,21 @@ function GBB.CreateTagList()
     GBB.CreateTagListLOC( "zhTW" )
   end
   if GBB.DB.TagsCustom then
-    GBB.searchTagsLoc[ "custom" ] = GBB.Split( GBB.DB.Custom.Search )
-    GBB.badTagsLoc[ "custom" ] = GBB.Split( GBB.DB.Custom.Bad )
-    GBB.suffixTagsLoc[ "custom" ] = GBB.Split( GBB.DB.Custom.Suffix )
-    GBB.heroicTagsLoc[ "custom" ] = GBB.Split( GBB.DB.Custom.Heroic )
+    -- Initialize custom tags safely
+    GBB.searchTagsLoc[ "custom" ] = GBB.Split( GBB.DB.Custom.Search or "" )
+    GBB.badTagsLoc[ "custom" ] = GBB.Split( GBB.DB.Custom.Bad or "" )
+    GBB.suffixTagsLoc[ "custom" ] = GBB.Split( GBB.DB.Custom.Suffix or "" )
+    GBB.heroicTagsLoc[ "custom" ] = GBB.Split( GBB.DB.Custom.Heroic or "" )
 
     GBB.dungeonTagsLoc[ "custom" ] = {}
+    
+    -- Safe iteration for all dungeon indices
     for index = 1, GBB.TBCMAXDUNGEON do
-      GBB.dungeonTagsLoc[ "custom" ][ GBB.dungeonSort[ index ] ] = GBB.Split( GBB.DB.Custom[ GBB.dungeonSort[ index ] ] )
+      local dungeon = GBB.dungeonSort[index]
+      if dungeon then
+        local customTags = GBB.DB.Custom[dungeon] or ""
+        GBB.dungeonTagsLoc[ "custom" ][ dungeon ] = GBB.Split( customTags )
+      end
     end
 
     GBB.CreateTagListLOC( "custom" )
@@ -448,6 +518,10 @@ function GBB.Init()
   if (type( GBB.DB.FontSize ) == "table") then
     GBB.DB.FontSize = nil
   end
+  
+  if GBB.DB.FilterTradeChat == nil then 
+    GBB.DB.FilterTradeChat = true
+  end
 
   if not GBB.DBChar.channel then GBB.DBChar.channel = {} end
   if not GBB.DB.MinimapButton then GBB.DB.MinimapButton = {} end
@@ -491,6 +565,7 @@ function GBB.Init()
   GBB.LFG_Successfulljoined = false
 
   GBB.AnnounceInit()
+  GBB.InitializeAllDungeonTags()
   if GBB.DB.DisplayLFG == false then
     GroupBulletinBoardFrameAnnounce:Hide()
     GroupBulletinBoardFrameAnnounceMsg:Hide()
