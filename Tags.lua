@@ -76,7 +76,7 @@ GBB.heroicTagsLoc = langSplit( {
 GBB.dungeonTagsLoc = {
   enGB = langSplit( {
     [ "RFC" ]    = "rfc ragefire chasm",
-    [ "DM" ]     = "dm deadmines dead mines mine",
+    [ "DM" ]     = "dm deadmines deadmine",
     [ "WC" ]     = "wc wailing caverns",
     [ "SFK" ]    = "sfk shadowfang",
     [ "STOCKS" ] = "stk stock stockade stockades",
@@ -396,7 +396,7 @@ GBB.dungeonTagsLoc = {
   } ),
   frFR = langSplit( {
     [ "RFC" ]    = "rfc ragefeu",
-    [ "DM" ]     = "mm mortemines mine mortemine",
+    [ "DM" ]     = "mm mortemines mortemine",
     [ "WC" ]     = "lams lam lamentations",
     [ "SFK" ]    = "ombrecroc",
     [ "STOCKS" ] = "prison",
