@@ -484,6 +484,7 @@ function GBB.GetDungeons( msg, name )
   if msg == nil then return {} end
   
   local dungeons = {}
+  local matchedTags = {} -- Track which instance-specific tags matched
 
   local isBad = false
   local isGood = false
@@ -495,7 +496,7 @@ function GBB.GetDungeons( msg, name )
 
   local wordcount = 0
   
-   -- Enhanced guild recruitment detection
+  -- Enhanced guild recruitment detection
   local guildRecruitmentPatterns = {
     "guild.*recruit", "recruit.*guild", "looking.*members", "members.*wanted",
     "apply.*guild", "guild.*apply", "join.*guild", "guild.*join",
@@ -529,16 +530,13 @@ function GBB.GetDungeons( msg, name )
     end
   end
   
-  -- If message contains both dungeon tags AND guild context, mark as bad
-  if hasGuildContext then
-    local dungeonCount = 0
-    for _ in pairs(dungeons) do
-      dungeonCount = dungeonCount + 1
-    end
-    
-    -- If multiple dungeons are mentioned with guild context, it's likely recruitment spam
-    if dungeonCount > 2 then
-      isBad = true
+  -- Create a reverse mapping of tags to dungeons for instance-specific tags only
+  local instanceTagToDungeonMap = {}
+  for lang, langData in pairs(GBB.dungeonTagsLoc) do
+    for dungeon, tags in pairs(langData) do
+      for _, tag in ipairs(tags) do
+        instanceTagToDungeonMap[tag] = dungeon
+      end
     end
   end
 
@@ -551,6 +549,11 @@ function GBB.GetDungeons( msg, name )
           break
         elseif v ~= nil then
           dungeons[ v ] = true
+          -- Track the tag that matched, but only if it's an instance-specific tag
+          if instanceTagToDungeonMap[key] then
+            if not matchedTags[v] then matchedTags[v] = {} end
+            table.insert(matchedTags[v], key)
+          end
         end
       end
     end
@@ -585,6 +588,11 @@ function GBB.GetDungeons( msg, name )
         isGood = true
       else
         dungeons[ x ] = true
+        -- Track the tag that matched, but only if it's an instance-specific tag
+        if instanceTagToDungeonMap[p] then
+          if not matchedTags[x] then matchedTags[x] = {} end
+          table.insert(matchedTags[x], p)
+        end
       end
     end
     wordcount = #(parts)
@@ -676,8 +684,20 @@ function GBB.GetDungeons( msg, name )
     end
   end
   
+  -- If message contains both dungeon tags AND guild context, mark as bad
+  if hasGuildContext then
+    local dungeonCount = 0
+    for _ in pairs(dungeons) do
+      dungeonCount = dungeonCount + 1
+    end
+    
+    -- If multiple dungeons are mentioned with guild context, it's likely recruitment spam
+    if dungeonCount > 2 then
+      isBad = true
+    end
+  end
 
-  return dungeons, isGood, isBad, wordcount, isHeroic
+  return dungeons, isGood, isBad, wordcount, isHeroic, matchedTags
 end
 
 local function is_non_ascii( text )
@@ -729,7 +749,7 @@ function GBB.ParseMessage( msg, name, channel )
   if updated == true then return end
 
   --flm RFD need healer and 3 dps
-  local dungeonList, isGood, isBad, wordcount, isHeroic = GBB.GetDungeons( msg, name )
+  local dungeonList, isGood, isBad, wordcount, isHeroic, matchedTags = GBB.GetDungeons( msg, name )
 
   if type( dungeonList ) ~= "table" then return end
 
@@ -769,6 +789,8 @@ function GBB.ParseMessage( msg, name, channel )
           GBB.RequestList[ index ].IsGuildMember = false --IsInGuild() and IsGuildMember( guid )
           GBB.RequestList[ index ].IsFriend = false      --C_FriendList.IsFriend( guid )
           GBB.RequestList[ index ].IsPastPlayer = GBB.GroupTrans[ name ] ~= nil
+          -- Store matched instance-specific tags
+          GBB.RequestList[ index ].matchedTags = matchedTags[dungeon] or {}
 
           if GBB.FilterDungeon( dungeon, isHeroic, isRaid ) and dungeon ~= "TRADE" and dungeon ~= "MISC" and GBB.FoldedDungeons[ dungeon ] ~= true then
             if dungeonTXT == "" then
@@ -783,6 +805,8 @@ function GBB.ParseMessage( msg, name, channel )
         GBB.RequestList[ index ].IsHeroic = isHeroic
         GBB.RequestList[ index ].IsRaid = isRaid
         GBB.RequestList[ index ].last = requestTime
+        -- Update matched tags on existing entries too
+        GBB.RequestList[ index ].matchedTags = matchedTags[dungeon] or {}
         doUpdate = true
       end
     end
@@ -836,6 +860,7 @@ function GBB.ParseMessage( msg, name, channel )
     GBB.RequestList[ index ].message = msg
     GBB.RequestList[ index ].IsHeroic = isHeroic
     GBB.RequestList[ index ].last = requestTime
+    GBB.RequestList[ index ].matchedTags = {}
   end
 end
 
@@ -948,6 +973,12 @@ function GBB.RequestShowTooltip( self )
       GameTooltip:AddLine( string.format( GBB.L[ "msgLastTime" ], GBB.formatTime( time() - req.last ) ) )
     else
       GameTooltip:AddLine( string.format( GBB.L[ "msgTotalTime" ], GBB.formatTime( time() - req.start ) ) )
+    end
+
+    -- NEW: Show matched instance-specific tags
+    if req.matchedTags and #req.matchedTags > 0 then
+      GameTooltip:AddLine(" ") -- Empty line for separation
+      GameTooltip:AddLine("Matched tags: " .. table.concat(req.matchedTags, ", "), 0.5, 0.8, 1.0, 1)
     end
 
     if GBB.DB.EnableGroup and GBB.GroupTrans and GBB.GroupTrans[ req.name ] then
